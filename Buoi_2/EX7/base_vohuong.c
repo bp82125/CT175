@@ -34,4 +34,16 @@ void print_adjacent(Graph *pG, int u){
 	printf("\n");
 }
 
-
+int main(void){
+	freopen("dt.txt", "r", stdin); //Khi nộp bài nhớ bỏ dòng này.
+	Graph G;
+	int n, m, u, v, e;
+	scanf("%d%d", &n, &m);
+	init_graph(&G, n);
+	
+	for (e = 0; e < m; e++) {
+		scanf("%d%d", &u, &v);
+		add_edge(&G, u, v);
+	}
+	return 0;
+}
