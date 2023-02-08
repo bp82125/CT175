@@ -1,0 +1,17 @@
+SC(&G, ...){
+- Đánh dấu ... và đưa vào S:
+    num[...] = min_num[...] = ...; k=...;
+    S = {...};
+- Các đỉnh kề của ...:
+	.. chưa duyệt:
+		- SC(&G, ...){
+
+        }
+		- min_num[...] = min(min_num[...], min_num[..]); 
+	// ..duyệt rồi và còn trên stack:
+	// 	min_num[...] = min(min_num[...], num[..]);
+- num[...] =/<>min_num[...]
+	// Lấy các đỉnh trong S ra cho đến khi lấy được ...
+	// Các đỉnh được lấy ra:
+	// S = {}
+}
