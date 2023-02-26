@@ -122,14 +122,20 @@ int main(void) {
 
 	BellmanFord(&G, start);
 	
-	List L;
-	make_null_list(&L);
-	while(!(member(&L, negative_cycle_start))){
-		push_back(&L, negative_cycle_start);
-		negative_cycle_start = p[negative_cycle_start];
+	if(!negative_cycle){
+		printf("NO");
+	}else {
+		printf("YES\n");
+		
+		List L;
+		make_null_list(&L);
+		while(!(member(&L, negative_cycle_start))){
+			push_back(&L, negative_cycle_start);
+			negative_cycle_start = p[negative_cycle_start];
+		}
+		
+		print_path(&G, negative_cycle_start, p[negative_cycle_start]);
 	}
-	
-	print_path(&G, negative_cycle_start, p[negative_cycle_start]);
 
 	return 0;
 }
