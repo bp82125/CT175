@@ -16,8 +16,8 @@ void ranking(Graph *pG){
     List S1, S2
 
     S1 = d.withIndex()
-            .filter { u -> d[u] == 0 }
-            .map { u -> u.index }
+            .filter { (u, value) -> value == 0 }
+            .map { (u, value) -> u }
 
     S1 = {0}
 
