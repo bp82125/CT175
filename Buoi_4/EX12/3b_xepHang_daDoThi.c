@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include "queue.c"
 #include "list.c"
 
 #define MAX_VERTICES 100
@@ -33,43 +32,45 @@ int adjacent(Graph *pG, int u, int v){
 int deg_in(Graph *pG, int u){
 	int deg = 0;
 	for(int v = 1; v <= pG->n; ++v){
-		deg += pG->A[v][u];
+		deg += pG->A[v][u] > 0;
 	}
 	return deg;
 }
 
+int rank[MAX_VERTICES];
 int d[MAX_VERTICES];
 
-void TopoSort(Graph *pG, List *pL){
+void Ranking(Graph *pG){
+	List L1, L2;
+	make_null(&L1);
+	make_null(&L2);
 	
 	for(int u = 1; u<=pG->n;++u){
 		d[u] = deg_in(pG, u);
-	}
-	
-	Queue Q;
-	make_null_queue(&Q);
-	
-	for(int u = 1; u<=pG->n;++u){
-		if(d[u]==0){
-			enqueue(&Q, u);
-			
+		if(d[u] == 0){
+			push_back(&L1, u);
 		}
 	}
 	
-	while(!empty(&Q)){
-		int u = front(&Q);
-		dequeue(&Q);
-		push_back(pL, u);
+	int k = 0;
+	while(L1.size != 0){
+		make_null(&L2);
 		
-		for(int v = 1; v<=pG->n;++v){
-			if(adjacent(pG, u, v)){
-				d[v]--;
-				if(d[v] == 0){
-					enqueue(&Q, v);
+		for(int i = 0; i<L1.size;++i){
+			int u = L1.data[i];
+			rank[u] = k;
+			
+			for(int v = 1; v<=pG->n;++v){
+				if(adjacent(pG, u, v)){
+					d[v]--;
+					if(d[v] == 0) push_back(&L2, v);
 				}
 			}
 		}
-	}
+		
+		k++;
+		copy_list(&L1, &L2);
+	}	
 }
 
 int main(void){
@@ -93,13 +94,10 @@ int main(void){
 //		}
 //	}
 	
-	List L;
-	make_null(&L);
+	Ranking(&G);
 	
-	TopoSort(&G, &L);
-	
-	for(int i = 0; i<L.size;++i){
-		printf("%d ", L.data[i]);
+	for(int u = 1; u<=n;++u){
+		printf("r[%d] = %d\n", u, rank[u]);
 	}
 	
 	return 0;

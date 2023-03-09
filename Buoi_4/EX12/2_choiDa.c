@@ -11,17 +11,17 @@ typedef struct Graph{
 }Graph;
 
 void init_graph(Graph *pG, int n){
-	pG->m++;
+	pG->m = 0;
 	pG->n = n;
 	
-	for(int i = 0; i < n ;++i){
-		for(int j = 0; j<n;++j){
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;++j){
 			pG->A[i][j] = 0;
 		}
 	}
 }
 
-void add_edges(Graph *pG, int u, int v){
+void add_edge(Graph *pG, int u, int v){
 	pG->A[u][v]++;
 	pG->m++;
 }
@@ -30,10 +30,10 @@ int adjacent(Graph *pG, int u, int v){
 	return pG->A[u][v] > 0;
 }
 
-int deg_in(Graph *pG, int u){
+int in_deg(Graph *pG, int u){
 	int deg = 0;
-	for(int v = 1; v <= pG->n; ++v){
-		deg += pG->A[v][u];
+	for(int i=1;i<=pG->n;++i){
+		deg += pG->A[i][u];
 	}
 	return deg;
 }
@@ -41,18 +41,13 @@ int deg_in(Graph *pG, int u){
 int d[MAX_VERTICES];
 
 void TopoSort(Graph *pG, List *pL){
-	
-	for(int u = 1; u<=pG->n;++u){
-		d[u] = deg_in(pG, u);
-	}
-	
 	Queue Q;
 	make_null_queue(&Q);
-	
+
 	for(int u = 1; u<=pG->n;++u){
-		if(d[u]==0){
+		d[u] = in_deg(pG, u);
+		if(d[u] == 0){
 			enqueue(&Q, u);
-			
 		}
 	}
 	
@@ -61,12 +56,10 @@ void TopoSort(Graph *pG, List *pL){
 		dequeue(&Q);
 		push_back(pL, u);
 		
-		for(int v = 1; v<=pG->n;++v){
+		for(int v = 1; v <= pG->n;++v){
 			if(adjacent(pG, u, v)){
 				d[v]--;
-				if(d[v] == 0){
-					enqueue(&Q, v);
-				}
+				if(d[v]==0) enqueue(&Q, v);
 			}
 		}
 	}
@@ -79,10 +72,10 @@ int main(void){
 	scanf("%d%d", &n, &m);
 	init_graph(&G, n);
 	
-	for(int i = 0; i<m;++i){
+	for(int e = 0; e<m;++e){
 		int u, v;
 		scanf("%d%d", &u, &v);
-		add_edges(&G, u, v);
+		add_edge(&G, u, v);
 	}
 	
 //	for(int i = 1; i <= n ;++i){
@@ -92,16 +85,13 @@ int main(void){
 //			}
 //		}
 //	}
-	
+
 	List L;
 	make_null(&L);
 	
 	TopoSort(&G, &L);
 	
-	for(int i = 0; i<L.size;++i){
-		printf("%d ", L.data[i]);
-	}
-	
+	print_list(&L);
+
 	return 0;
 }
-
