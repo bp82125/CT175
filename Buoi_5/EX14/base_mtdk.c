@@ -29,7 +29,7 @@ int adjacent(Graph *pG, int u, int v){
 
 int main(void){
 	Graph G;
-	freopen("dt.txt", "r", stdin);
+	freopen("dt.txt", "r", stdin); // nop tren else nho bo dong nay
 	int n, m;
 	scanf("%d%d", &n, &m);
 	init_graph(&G, n);
@@ -46,10 +46,6 @@ int main(void){
 				printf("%d %d\n", i, j);
 			}
 		}
-	}
-	
-	for(int u = 1; u<=n;++u){
-		printf("in-deg[%d] = %d\n", u, deg_in(&G, u));
 	}
 	
 	return 0;
