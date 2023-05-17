@@ -47,8 +47,6 @@ void init_flow(Graph *pG){
 	}
 }
 
-
-
 int FordFulkerson(Graph *pG, int s, int t){
 	init_flow(pG);
 	int max_flow = 0;

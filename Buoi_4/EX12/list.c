@@ -1,7 +1,6 @@
 #include <stdio.h>
 
 #define ElementType int
-
 #define MAX_N 100
 
 typedef struct List{
